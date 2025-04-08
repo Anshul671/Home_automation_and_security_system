@@ -1,0 +1,19 @@
+LCD Interfacing :- 
+ 
+  lcd.init(); 
+  lcd.backlight(); 
+  lcd.setCursor(0,0); 
+  lcd.print("Home Automation"); 
+  lcd.setCursor(0,1); 
+  lcd.print("& Security Sys."); 
+  pinMode(14,INPUT);//pir b 
+  pinMode(12,INPUT);//pir 
+  pinMode(13,INPUT);//ldr 
+ 
+  pinMode(16,OUTPUT);//buzz 
+  pinMode(10,OUTPUT);//rly 
+  //pinMode(0,OUTPUT);//rly 
+ 
+  digitalWrite(16,LOW); 
+  digitalWrite(10,LOW); 
+  //digitalWrite(0,LOW);
