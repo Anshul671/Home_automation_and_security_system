@@ -1,0 +1,148 @@
+PIR Sensor - 1 Interfacing :- 
+ 
+lcd.setCursor(0,1); 
+  lcd.print("S1:");             //PIR 1 Sesnsor 
+  if(digitalRead(14)==HIGH) 
+  { 
+    lcd.print("Yes"); 
+    Blynk.virtualWrite(V1, 255); 
+    mov=1; 
+  } 
+  else   
+  { 
+    lcd.print("NO "); 
+    Blynk.virtualWrite(V1, 0); 
+    mov=0; 
+  } 
+ 
+ 
+For controlling an LCD display based on the reading of a PIR (Passive Infrared) 
+sensor connected to digital pin 14. 
+
+ 
+lcd.setCursor(0,1);: Set the cursor position on the LCD display to column 0 and row 
+1. This indicates where the text will be printed. 
+ 
+lcd.print("S1:");: Print the string "S1:" on the LCD display. This is likely a label 
+indicating the following PIR sensor status. 
+ 
+if(digitalRead(14)==HIGH): Check the state of the digital pin 14 (connected to the 
+PIR sensor). If it reads HIGH (indicating that motion is detected by the PIR sensor): 
+ 
+a. lcd.print("Yes");: Print the string "Yes" on the LCD display. This indicates that 
+motion is detected by PIR sensor 1. 
+ 
+b. Blynk.virtualWrite(V1, 255);: Send a virtual write command to the Blynk 
+platform, writing a value of 255 to virtual pin V1. This can be used to update a 
+widget or trigger an action in the Blynk mobile app. 
+ 
+c. mov=1;: Set the value of the mov variable to 1. This variable is likely used to 
+track the motion status and may be used in other parts of the code. 
+ 
+else: If the above condition is not met (indicating no motion detected by the PIR 
+sensor): 
+ 
+a. lcd.print("NO ");: Print the string "NO " on the LCD display. This indicates that 
+no motion is detected by PIR sensor 1. 
+ 
+b. Blynk.virtualWrite(V1, 0);: Send a virtual write command to the Blynk platform, 
+writing a value of 0 to virtual pin V1. 
+ 
+c. mov=0;: Set the value of the mov variable to 0. 
+ 
+ 
+
+PIR Sensor - 2 Interfacing :- 
+ 
+lcd.setCursor(8,1); 
+  lcd.print("S2:");      //PIR 2 Sesnsor 
+  if(digitalRead(12)==HIGH) 
+  { 
+    lcd.print("Yes"); 
+    digitalWrite(16,HIGH); 
+    Blynk.virtualWrite(V2, 255); 
+    delay(100); 
+ 
+    digitalWrite(16,LOW); 
+    Blynk.virtualWrite(V2, 0); 
+    delay(100); 
+    digitalWrite(16,HIGH); 
+    Blynk.virtualWrite(V2, 255); 
+ 
+    delay(100); 
+    digitalWrite(16,LOW); 
+    Blynk.virtualWrite(V2, 0); 
+    delay(100); 
+    digitalWrite(16,HIGH); 
+    Blynk.virtualWrite(V2, 255); 
+    delay(100); 
+    digitalWrite(16,LOW); 
+    Blynk.virtualWrite(V2, 0); 
+    delay(100); 
+    digitalWrite(16,HIGH); 
+    Blynk.virtualWrite(V2, 255); 
+    delay(100); 
+    digitalWrite(16,LOW); 
+    Blynk.virtualWrite(V2, 0); 
+    delay(100); 
+  } 
+  else   
+    lcd.print("NO ");  
+delay(500); 
+} 
+ 
+void loop() { 
+  BlynkEdgent.run(); 
+   timer.run(); // Initiates SimpleTimer 
+} 
+ 
+ 
+For controlling an LCD display and performing actions based on the reading of a 
+PIR (Passive Infrared) sensor connected to digital pin 12. 
+lcd.setCursor(8,1);: Set the cursor position on the LCD display to column 8 and row 
+1. This indicates where the text will be printed. 
+ 
+lcd.print("S2:");: Print the string "S2:" on the LCD display. This is likely a label 
+indicating the following PIR sensor status. 
+
+ 
+if(digitalRead(12)==HIGH): Check the state of the digital pin 12 (connected to the 
+PIR sensor). If it reads HIGH (indicating that motion is detected by the PIR sensor): 
+ 
+a. lcd.print("Yes");: Print the string "Yes" on the LCD display. This indicates that 
+motion is detected by PIR sensor 2. 
+ 
+b. digitalWrite(16,HIGH);: Set the digital pin 16 to HIGH. This line of code is likely 
+controlling a connected device (such as an LED) to indicate the motion detected by 
+PIR sensor 2. 
+ 
+c. Blynk.virtualWrite(V2, 255);: Send a virtual write command to the Blynk 
+platform, writing a value of 255 to virtual pin V2. This can be used to update a 
+widget or trigger an action in the Blynk mobile app. 
+ 
+d. The code then proceeds to execute a series of actions with delays. It alternates 
+the state of the digital pin 16 and sends virtual write commands to the Blynk 
+platform. It appears to be simulating a sequence of events, toggling the device 
+connected to pin 16 and updating the virtual pin V2 status. Each action is followed 
+by a delay of 100 milliseconds. 
+ 
+else: If the condition in step 3 is not met (indicating no motion detected by the PIR 
+sensor): 
+ 
+a. lcd.print("NO ");: Print the string "NO " on the LCD display. This indicates that 
+no motion is detected by PIR sensor 2. 
+ 
+delay(500);: Add a delay of 500 milliseconds. This delay is outside any conditional 
+block, so it will be executed regardless of the PIR sensor status. It adds a pause 
+before the next loop iteration. 
+ 
+void loop(): This is the start of the loop() function. 
+ 
+a. BlynkEdgent.run();: Run the BlynkEdgent library function to handle Blynk
+related operations and communication. This is typically used when working with 
+Blynk's Device Management solution for provisioning and managing devices. 
+ 
+b. timer.run();: Run the SimpleTimer library function. This library allows 
+scheduling and executing functions at specific intervals. The purpose and 
+implementation of the timer object are not provided in the code snippet, but 
+it likely handles specific timing-related tasks or function calls. 
