@@ -1,0 +1,162 @@
+MAIN CODE:- 
+ 
+ 
+ 
+#define BLYNK_TEMPLATE_ID "TMPL3pUMvzXQX" 
+#define BLYNK_TEMPLATE_NAME "Project" 
+ 
+#define BLYNK_FIRMWARE_VERSION        "0.1.0" 
+ 
+#define BLYNK_PRINT Serial 
+//#define BLYNK_DEBUG 
+ 
+#define APP_DEBUG 
+ 
+// Uncomment your board, or configure a custom board in Settings.h 
+//#define USE_SPARKFUN_BLYNK_BOARD 
+#define USE_NODE_MCU_BOARD 
+//#define USE_WITTY_CLOUD_BOARD 
+//#define USE_WEMOS_D1_MINI 
+ 
+#include <SimpleTimer.h> 
+   
+SimpleTimer timer; 
+#include "BlynkEdgent.h" 
+#include <Wire.h>  
+#include <LiquidCrystal_I2C.h> 
+ 
+LiquidCrystal_I2C lcd(0x3F,20,4);  // set the LCD address to 0x27 for 
+a 16 chars and 2 line display 
+int temp,mov; 
+void setup() 
+{ 
+  Serial.begin(115200); 
+  delay(100); 
+ 
+   
+  BlynkEdgent.begin(); 
+  timer.setInterval(1000L, sendSensor); 
+  lcd.init();                      // initialize the lcd  
+  lcd.init(); 
+  lcd.backlight(); 
+  lcd.setCursor(0,0); 
+  lcd.print("Home Automation"); 
+  lcd.setCursor(0,1); 
+  lcd.print("& Security Sys."); 
+  pinMode(14,INPUT);//pir b 
+  pinMode(12,INPUT);//pir 
+  pinMode(13,INPUT);//ldr 
+45 
+ 
+ 
+  pinMode(16,OUTPUT);//buzz 
+  pinMode(10,OUTPUT);//rly 
+ 
+  //pinMode(0,OUTPUT);//rly 
+ 
+  digitalWrite(16,LOW); 
+  digitalWrite(10,LOW); 
+  //digitalWrite(0,LOW); 
+ 
+  // Print a message to the LCD. 
+  delay(3000); 
+   lcd.clear();  
+} 
+void sendSensor() 
+{  
+  lcd.setCursor(0,0); 
+  lcd.print("T:"); 
+  temp=analogRead(A0)/4.4; 
+  lcd.print(temp); 
+  Blynk.virtualWrite(V3, temp); 
+ //----------------------------------------  
+  lcd.setCursor(8,0); 
+  lcd.print("L:");    //Light Sesnsor 
+  if(digitalRead(13)==LOW) 
+  { 
+    lcd.print("Yes"); 
+    digitalWrite(10,HIGH); 
+    Blynk.virtualWrite(V0, 255); 
+    Blynk.virtualWrite(V6, 0); 
+  } 
+  else   
+  { 
+    lcd.print("NO "); 
+    if(mov==1) 
+      digitalWrite(10,LOW); 
+    Blynk.virtualWrite(V0, 0); 
+    Blynk.virtualWrite(V6, 255); 
+  } 
+//---------------------------------------------- 
+  if(temp>35) 
+  { 
+    if(mov==1) 
+      //digitalWrite(0,LOW); 
+    Blynk.virtualWrite(V7, 255); 
+  } 
+  else   
+  { 
+ 
+ 
+    //digitalWrite(0,HIGH); 
+    Blynk.virtualWrite(V7, 0); 
+  } 
+//--------------------------------------------------- 
+  lcd.setCursor(0,1); 
+  lcd.print("S1:");             //PIR 1 Sesnsor 
+  if(digitalRead(14)==HIGH) 
+  { 
+    lcd.print("Yes"); 
+    Blynk.virtualWrite(V1, 255); 
+    mov=1; 
+  } 
+  else   
+  { 
+    lcd.print("NO "); 
+    Blynk.virtualWrite(V1, 0); 
+    mov=0; 
+  } 
+ //-------------------------------------------------------  
+  lcd.setCursor(8,1); 
+  lcd.print("S2:");      //PIR 2 Sesnsor 
+  if(digitalRead(12)==HIGH) 
+  { 
+    lcd.print("Yes"); 
+    digitalWrite(16,HIGH); 
+    Blynk.virtualWrite(V2, 255); 
+    delay(100); 
+    digitalWrite(16,LOW); 
+    Blynk.virtualWrite(V2, 0); 
+    delay(100); 
+    digitalWrite(16,HIGH); 
+    Blynk.virtualWrite(V2, 255); 
+    delay(100); 
+    digitalWrite(16,LOW); 
+    Blynk.virtualWrite(V2, 0); 
+    delay(100); 
+    digitalWrite(16,HIGH); 
+    Blynk.virtualWrite(V2, 255); 
+    delay(100); 
+    digitalWrite(16,LOW); 
+     
+ 
+    Blynk.virtualWrite(V2, 0); 
+    delay(100); 
+    digitalWrite(16,HIGH); 
+    Blynk.virtualWrite(V2, 255); 
+    delay(100); 
+    digitalWrite(16,LOW); 
+
+ 
+    Blynk.virtualWrite(V2, 0); 
+    delay(100); 
+  } 
+  else   
+    lcd.print("NO ");  
+delay(500); 
+} 
+ 
+void loop() { 
+  BlynkEdgent.run(); 
+   timer.run(); // Initiates SimpleTimer 
+}
