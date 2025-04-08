@@ -1,0 +1,53 @@
+LDR Interfacing :- 
+ 
+lcd.setCursor(8,0); 
+  lcd.print("L:");    //Light Sesnsor 
+  if(digitalRead(13)==LOW) 
+  { 
+    lcd.print("Yes"); 
+    digitalWrite(10,HIGH); 
+    Blynk.virtualWrite(V0, 255); 
+    Blynk.virtualWrite(V6, 0); 
+  } 
+  else   
+  { 
+    lcd.print("NO "); 
+    if(mov==1) 
+      digitalWrite(10,LOW); 
+    Blynk.virtualWrite(V0, 0); 
+    Blynk.virtualWrite(V6, 255); 
+  } 
+ 
+ 
+For controlling an LCD display based on the reading of a light sensor (connected 
+to pin 13) and a variable mov. 
+ 
+lcd.setCursor(8,0);: Set the cursor position on the LCD display to column 8 and row 
+0. 
+ 
+lcd.print("L:");: Print the string "L:" on the LCD display. This is likely a label 
+indicating the following light sensor status. 
+ 
+if(digitalRead(13)==LOW): Check the state of the digital pin 13 (connected to the 
+light sensor). If it reads LOW (indicating that the light sensor is detecting low light 
+or darkness): 
+ 
+a. lcd.print("Yes");: Print the string "Yes" on the LCD display. This indicates that 
+the light sensor is detecting low light. 
+ 
+b. digitalWrite(10,HIGH);: Set the digital pin 10 to HIGH. This line of code is likely 
+controlling a connected device (such as an LED) to indicate the low light condition. 
+ 
+c. Blynk.virtualWrite(V0, 255);: Send a virtual write command to the Blynk 
+platform, writing a value of 255 to virtual pin V0. This can be used to update a 
+widget or trigger an action in the Blynk mobile app. 
+ 
+d. Blynk.virtualWrite(V6, 0);: Send a virtual write command to the Blynk platform, 
+writing a value of 0 to virtual pin V6. Similar to the previous line, this can be used 
+to update a widget or trigger an action in the Blynk app. 
+ 
+else: If the condition in step 3 is not met (indicating that the light sensor is not 
+detecting low light): 
+ 
+a. lcd.print("NO ");: Print the string "NO " on the LCD display. This indicates that 
+the light sensor is not detecting low light. 
